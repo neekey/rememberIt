@@ -1,0 +1,15 @@
+{
+  "todoist": {
+    "clientId": "5c39c3affa3144349fdbb67ea9b1c70c",
+    "clientSecret": "fc38b72a29b54d7c91e182dd61d297e8"
+  },
+  "db": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "ebbing-seth-local",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "port": 3021
+}

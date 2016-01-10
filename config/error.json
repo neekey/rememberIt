@@ -1,0 +1,24 @@
+{
+  "model": [
+    "INVALID_INPUT",
+    "ALREADY_EXIST",
+    "NOT_EXIST",
+    "OWNERS_CAN_NOT_BE_EMPTY",
+    "DATABASE_ERROR",
+    "PERMISSION_DENIED"  
+  ],
+
+  "api": [
+    "PERMISSION_DENIED",
+    "NOT_EXIST",
+    "INVALID_INPUT"
+  ],
+  
+  "bbc": [
+    "NOT_EXIST"
+  ],
+  "permission": [
+    "NOT_EXIST",
+    "PERMISSION_DENIED"
+  ]
+}

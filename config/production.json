@@ -1,0 +1,28 @@
+{
+  "db": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "ebbing-seth-production",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "logger": {
+    "logdir": "./logs",
+    "duration": 86400000,
+    "level": 0,
+    "stdoutLevel": 2
+  },
+  "acl": {
+    "appname": "dip",
+    "isDaily": false
+  },
+  "port": 6001,
+  "proxyService": {
+    "rulePushAPI": "http://proxy.labs.taobao.net/api/ext/sets"
+  },
+  "oplog": {
+    "sysId": "OPLOG00791_OPLOG00791",
+    "sysName": "tbdip"
+  }
+}

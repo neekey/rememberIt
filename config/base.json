@@ -1,0 +1,9 @@
+{
+  "todoist": {
+    "clientId": "clientId",
+    "clientSecret": "clientSecret"
+  },
+  "sessionKey": "todoist",
+  "port": 5000,
+  "staticPath": "/public"
+}

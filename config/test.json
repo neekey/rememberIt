@@ -1,0 +1,10 @@
+{
+  "db": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "ebbing-seth-test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432
+  }
+}
