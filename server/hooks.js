@@ -5,8 +5,8 @@
 
 module.exports = function( req, res, next ){
 
-    console.log( 'hooks', req.method, req.path );
-    if( req.method == 'GET' && req.path == '/hooks' ){
+    if( ( req.method == 'GET' || req.method == 'POST' ) && req.path == '/hooks' ){
+        console.log( 'hooks', req.method, req.path, req.body );
         res.send( 200, 'hooks' );
     }
     else {
