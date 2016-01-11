@@ -67,8 +67,8 @@ if( ENV.TODOIST_client_id ){
     config.todoist.clientSecret = ENV.TODOIST_client_secret;
 }
 
-if( ENV.port ){
-    config.port = ENV.port;
+if( ENV.PORT ){
+    config.port = ENV.PORT;
 }
 
 
