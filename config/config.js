@@ -58,6 +58,7 @@ if( ENV.DB_username ){
     config.db.database = ENV.DB_database;
     config.db.host = ENV.DB_host;
     config.db.port = ENV.DB_port;
+    config.db.url = ENV.DB_url;
 }
 
 // check if DB config is specified by Environment Vars
