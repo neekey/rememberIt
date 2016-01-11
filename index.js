@@ -1,6 +1,10 @@
 var cluster = require( 'cluster' );
-
 var HOOK_SERVICE_WORKER_ID = null;
+var CPUS = require( 'os').cpus();
+var WEB_CONCURRENCY = CPUS.length;
+if( WEB_CONCURRENCY > 3 ){
+    WEB_CONCURRENCY = 3;
+}
 
 function startWorker( env ) {
     var worker = cluster.fork( env );
@@ -10,16 +14,17 @@ function startWorker( env ) {
 
 if( cluster.isMaster ){
 
-    require( 'os').cpus().forEach(function( cpu, index ){
-
-        // 保证一次只有一个线程启用了 webhook 服务
-        if( index == 0 ){
-            var worker = startWorker( { NEED_HOOK_SERVICE: true });
-            HOOK_SERVICE_WORKER_ID = worker.id;
-            console.log( 'CLUSTER: started worker with hook service, worker id %d', HOOK_SERVICE_WORKER_ID );
-        }
-        else {
-            startWorker();
+    CPUS.forEach(function( cpu, index ){
+        if( index < WEB_CONCURRENCY ){
+            // 保证一次只有一个线程启用了 webhook 服务
+            if( index == 0 ){
+                var worker = startWorker( { NEED_HOOK_SERVICE: true });
+                HOOK_SERVICE_WORKER_ID = worker.id;
+                console.log( 'CLUSTER: started worker with hook service, worker id %d', HOOK_SERVICE_WORKER_ID );
+            }
+            else {
+                startWorker();
+            }
         }
     });
 
