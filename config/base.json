@@ -3,6 +3,21 @@
     "clientId": "clientId",
     "clientSecret": "clientSecret"
   },
+  "db": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "ebbing-seth-local",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432,
+    "url": ""
+  },
+  "redis": {
+    "hostname": "127.0.0.1",
+    "port": 6379,
+    "password": "",
+    "url": ""
+  },
   "sessionKey": "todoist",
   "port": 5000,
   "staticPath": "/public"

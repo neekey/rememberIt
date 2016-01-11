@@ -5,6 +5,7 @@
  * production	base + production
  */
 var _ = require( 'lodash' );
+var url = require( 'url' );
 var configs = {
     base: _.cloneDeep( require( './base.json' ) ),
     test: _.cloneDeep( require( './test.json' ) ),
@@ -71,6 +72,12 @@ if( ENV.PORT ){
     config.port = ENV.PORT;
 }
 
+if( ENV.REDISCLOUD_URL || config.redis.url ){
+    var redisURL = url.parse( ENV.REDISCLOUD_URL || config.redis.url );
+    config.redis.hostname = redisURL.hostname;
+    config.redis.port = redisURL.port;
+    config.redis.password = redisURL.auth.split(":")[1];
+}
 
 module.exports = config;
 

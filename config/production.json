@@ -5,7 +5,8 @@
     "database": "ebbing-seth-production",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "port": 5432
+    "port": 5432,
+    "url": ""
   },
   "logger": {
     "logdir": "./logs",
@@ -17,12 +18,5 @@
     "appname": "dip",
     "isDaily": false
   },
-  "port": 6001,
-  "proxyService": {
-    "rulePushAPI": "http://proxy.labs.taobao.net/api/ext/sets"
-  },
-  "oplog": {
-    "sysId": "OPLOG00791_OPLOG00791",
-    "sysName": "tbdip"
-  }
+  "port": 6001
 }

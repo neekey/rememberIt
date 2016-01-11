@@ -20,6 +20,7 @@
     "lodash": "^3.10.1",
     "method-override": "^2.3.5",
     "pg": "^4.4.3",
+    "redis": "^2.4.2",
     "request": "^2.67.0",
     "request-promise": "^1.0.2",
     "sequelize": "^3.17.1",

@@ -9,7 +9,14 @@
     "database": "ebbing-seth-local",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "port": 5432
+    "port": 5432,
+    "url": "postgres://ucecpymtekeids:RnSPd56OJ9u0Ra5R1LUL3hyaBA@ec2-54-204-12-25.compute-1.amazonaws.com:5432/d13bi0a8quq841?ssl=true"
+  },
+  "redis": {
+    "hostname": "127.0.0.1",
+    "port": 6379,
+    "password": "",
+    "url": "redis://rediscloud:JG4FIXBOY7xNbuuk@pub-redis-15771.us-east-1-3.4.ec2.garantiadata.com:15771"
   },
   "port": 3021
 }
