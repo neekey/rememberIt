@@ -2,7 +2,31 @@ var TodoistOauth = require( '../lib/todoist_oauth' );
 var proxy = require('../lib/data/');
 var userProxy = proxy.user;
 var Session = require( './session' );
-var error = require( '../lib/error' );
+var Todoist = require( '../lib/todoist' );
+
+/**
+ * update user token and initial todoist data if hasn't done yet.
+ * @param token
+ * @param user
+ * @returns {*}
+ */
+function updateUserAuthInfo( token, user ){
+
+    var updateUser = { todoist_token: token };
+
+    if( !user.todoist_project_id || !user.todoist_label_id ){
+        // prepare todoist project and label
+        return Todoist.initialUser( token).then( function( ret ){
+            updateUser.todoist_label_id = ret.labelId;
+            updateUser.todoist_project_id = ret.projectId;
+
+            return userProxy.update( user.id, updateUser );
+        });
+    }
+    else {
+        return userProxy.update( user.id, updateUser );
+    }
+}
 
 /**
  *
@@ -34,23 +58,23 @@ module.exports = function( bbcCfg ){
             /**
              * 检查数据库中是否已经有该用户，若没有则添加信息
              */
-            userProxy.findOneByTodoistUserId( userInfo.id ).then(function ( user ) {
-
+            return userProxy.findOneByTodoistUserId( userInfo.id ).then(function ( user ) {
 
                 if ( user ) {
 
                     console.log( '[SSO] user already exists, write use info into cookie' );
 
-                    Session.setUserInfo( req, res, user );
-
-                    done( null );
+                    return updateUserAuthInfo( token, user).then(function( updateUser ){
+                        Session.setUserInfo( req, res, updateUser );
+                        done( null );
+                    });
 
                 } else {
 
                     // 将用户信息加入到数据库
                     console.log( '[SSO] user doesn\'t exists, add user to db' );
 
-                    userProxy.add({
+                    return userProxy.add({
                         name: userInfo.full_name,
                         todoist_user_id: userInfo.id,
                         todoist_token: token
@@ -58,16 +82,17 @@ module.exports = function( bbcCfg ){
 
                         console.log( '[SSO] add new user success:', JSON.stringify( user ) );
 
-                        Session.setUserInfo( req, res, user );
-
-                        // 跳转回用户的原始页面中
-                        done( null );
+                        return updateUserAuthInfo( token, user ).then(function( updateUser ){
+                            Session.setUserInfo( req, res, updateUser );
+                            done( null );
+                        });
 
                     }).catch(function (err) {
                         console.error( '[SSO] add new user fail:', err );
                         done( err );
                     });
                 }
+
             }).catch(function( err ){
                 console.error( '[SSO] check user exists fail:', err );
                 done( err );

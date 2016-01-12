@@ -6,14 +6,17 @@ module.exports = {
 
     getCleanUser: function ( user ){
         return {
+            id: user.id,
             name: user.name,
-            todoist_user_id: user.todoist_user_id
+            todoist_user_id: user.todoist_user_id,
+            todoist_project_id: user.todoist_project_id,
+            todoist_label_id: user.todoist_label_id
         };
     },
 
     setUserInfo: function( req, res, user ){
         req.session.userInfo = this.getCleanUser( user );
-        res.cookie('userInfo', encodeURIComponent( JSON.stringify( user ) ));
+        res.cookie('userInfo', JSON.stringify( req.session.userInfo ) );
     },
 
     getUserInfo: function( session ){
