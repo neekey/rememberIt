@@ -137,16 +137,9 @@ function addSubTask( user, task ){
 
     var process = task.current_process;
 
-    console.info( '[hook] try to add new sub task...', process, EbbingSeth );
+    console.info( '[hook] try to add new sub task...' );
 
-
-    try {
-        var ret = EbbingSeth( process );
-    }
-    catch( error ){
-        console.error( 'ebbing seth error', error );
-        throw error;
-    }
+    var ret = EbbingSeth( process );
 
     if( ret.finished ){
 
@@ -188,7 +181,7 @@ function finishedMemoryTask( user, todoistTask ){
 
     return TaskProxy.findOneByTodoistTaskId( todoistTask.id ).then(function( task ) {
 
-        console.info( '[hook] finish the whole task and current sub task...', task );
+        console.info( '[hook] finish the whole task and current sub task...' );
 
         if( task ){
             // finished current task
