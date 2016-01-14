@@ -22,9 +22,9 @@ module.exports = function( req, res, next ){
             return hooksHandle( req.body, req.get( 'X-Todoist-Delivery-ID' )).then(function(){
                 console.info( 'hooks handle success' );
                 res.send( 200 );
-            }).catch(function( err ){
+            }).catch(function( error ){
                 console.error( 'hooks handle error', error );
-                res.send( 500, err );
+                res.send( 500, error );
             });
         }
         else {
@@ -174,6 +174,8 @@ function addSubTask( user, task ){
 }
 
 function finishedMemoryTask( user, todoistTask ){
+
+    console.info( '[hook] try to find task with todoist task id ', todoistTask.id );
 
     return TaskProxy.findOneByTodoistTaskId( todoistTask.id ).then(function( task ) {
 
