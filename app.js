@@ -5,6 +5,7 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var cluster = require('cluster');
+var bodyParser = require( 'body-parser' );
 
 function startServer() {
 
@@ -84,7 +85,9 @@ function startServer() {
 
     app.set('port', app.get('appConfig').port);
     //app.use(timeout(10000));
-    app.use(require('body-parser')({limit: '500mb'}));
+    // hook 服务
+    app.use('/hooks', bodyParser.text({ type: '*/*' }));
+    app.use( bodyParser({limit: '500mb'}));
     app.use(require('cookie-session')({keys: [app.get('appConfig').sessionKey]}));
     app.use(require('method-override')());
 
