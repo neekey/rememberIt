@@ -28,7 +28,8 @@ function verifyTodoist( req ){
     if( req.get( 'User-Agent' ) == 'Todoist-Webhooks' && req.get( 'X-Todoist-Hmac-SHA256' ) ){
         var hmac = crypto.createHmac('sha256', config.todoist.clientSecret );
         hmac.update( req.body );
-        var digest = hmac.digest();
+        var digest = hmac.digest('base64');
+        console.log( 'digest', digest );
         return req.get('X-Todoist-Hmac-SHA256') == digest;
     }
     else {
