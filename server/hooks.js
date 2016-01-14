@@ -8,7 +8,7 @@ var config = require( '../config/config' );
 
 module.exports = function( req, res, next ){
 
-    if( ( req.method == 'GET' ) && req.path == '/hooks' ){
+    if( ( req.method == 'POST' ) && req.path == '/hooks' ){
         console.log( 'hooks', req.path, req.body, req.get( 'X-Todoist-Hmac-SHA256' ));
         if( verifyTodoist( req ) ){
             res.send( 200, 'ok' );
