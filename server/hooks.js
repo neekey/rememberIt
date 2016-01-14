@@ -134,9 +134,11 @@ function newMemoryTask( user, todoistTask ){
 
 function addSubTask( user, task ){
 
-    console.info( '[hook] try to add new sub task...' );
 
     var process = task.current_process;
+
+    console.info( '[hook] try to add new sub task...', process, EbbingSeth );
+
 
     try {
         var ret = EbbingSeth( process );
