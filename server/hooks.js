@@ -20,10 +20,10 @@ module.exports = function( req, res, next ){
             console.info( 'webhook verify success' );
 
             return hooksHandle( req.body, req.get( 'X-Todoist-Delivery-ID' )).then(function(){
-                console.info( 'hooks handle success' );
+                console.info( req.get( 'X-Todoist-Delivery-ID' ), 'hooks handle success' );
                 res.send( 200 );
             }).catch(function( error ){
-                console.error( 'hooks handle error', error );
+                console.error( req.get( 'X-Todoist-Delivery-ID' ), 'hooks handle error', error );
                 res.send( 500, error );
             });
         }
@@ -137,7 +137,14 @@ function addSubTask( user, task ){
     console.info( '[hook] try to add new sub task...' );
 
     var process = task.current_process;
-    var ret = EbbingSeth( process );
+
+    try {
+        var ret = EbbingSeth( process );
+    }
+    catch( error ){
+        console.error( 'ebbing seth error', error );
+        throw error;
+    }
 
     if( ret.finished ){
 
@@ -184,14 +191,18 @@ function finishedMemoryTask( user, todoistTask ){
         if( task ){
             // finished current task
             var currentTaskId = task.current_task_id;
+            var tasks = [];
 
-            return Promise.all([
-                Todoist.finishTask( user.todoist_token, user.todoist_project_id, currentTaskId ),
-                TaskProxy.update( task.id, {
-                    current_task_id: null,
-                    finished: true
-                })
-            ]);
+            if( currentTaskId ){
+                tasks.push( Todoist.finishTask( user.todoist_token, user.todoist_project_id, currentTaskId ) );
+            }
+
+            tasks.push(TaskProxy.update( task.id, {
+                current_task_id: null,
+                finished: true
+            }));
+
+            return Promise.all( tasks );
         }
     });
 }
