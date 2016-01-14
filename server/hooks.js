@@ -51,7 +51,7 @@ function verifyTodoist( req ){
 
 function hooksHandle( hookData, hookId ){
 
-    new Promise(function( resolve, reject ){
+    return new Promise(function( resolve, reject ){
         if( typeof hookData == 'string' ){
             hookData = JSON.parse( hookData );
         }
