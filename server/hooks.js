@@ -188,9 +188,13 @@ function finishedMemoryTask( user, todoistTask ){
             var currentTaskId = task.current_task_id;
             var tasks = [];
 
+            // finish current sub task if exist
             if( currentTaskId ){
-                tasks.push( Todoist.finishTask( user.todoist_token, user.todoist_project_id, currentTaskId ) );
+                tasks.push( Todoist.finishTask( user.todoist_token, currentTaskId ) );
             }
+
+            // finish the main task
+            tasks.push( Todoist.finishTask( user.todoist_token, task.origin_task_id ) );
 
             tasks.push(TaskProxy.update( task.id, {
                 current_task_id: null,
