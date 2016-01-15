@@ -2,16 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello</title>
+    <title>Remember It!</title>
     <script src="jquery-1.12.0.min.js"></script>
     <script src="jquery.cookie.js"></script>
 </head>
 <body>
-    <div class="J_UserInfo"></div>
+    <H2 class="J_UserInfo">Hi, <span class="J_UserName"></span>. Welcome to "Remember It".</H2>
+
+    <div class="user-guide">
+        <h3>How to use</h3>
+        <ul>
+            <li>visit this page to connect to todoist ( you've done it ). Remember It will add a label named "Remember It" and a project named "Things To Remember" for you. </li>
+            <li>If you want to remember anything, just add a task and label it with "Remember It", be careful you can't add a task into project "Things to Remember".</li>
+            <li>After you create your remember task, the following sub tasks will be add to project "Things To Remember", their name will be marked with your memory process like "mom's birthday [17%].</li>
+            <li>Whenever you complete a sub task, a subsequent sub task will be created according to the current memory process. If a sub task marked with '100%' is completed, the whole memory process will be finished, and the original task will be closed automatically.</li>
+            <li>Notice due to the delay of Todoist webhook calls, any process will be updated up to minutes. </li>
+        </ul>
+
+        <h3>Contact</h3>
+        <p>If you need any help, mail to ni184775761@gmail.com</p>
+    </div>
 
     <script>
         (function(){
-            $( '.J_UserInfo').html( decodeURIComponent( $.cookie( 'userInfo' ) ) ) ;
+            var userInfo = JSON.parse( decodeURIComponent( $.cookie( 'userInfo' ) ) )
+            $( '.J_UserName').html( userInfo.name ) ;
         })();
     </script>
 </body>
