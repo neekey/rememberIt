@@ -143,13 +143,15 @@ function addSubTask( user, task ){
 
     if( ret.finished ){
 
-        console.info( '[hook] cheers! the whole memory is done, update the task status...' );
+        console.info( '[hook] cheers! the whole memory is done, update the task status and finish the main task...' );
 
-        // update the task process and record the new sub task
-        return TaskProxy.update( task.id, {
-            current_task_id: null,
-            finished: true
-        });
+        return Promise.all([
+            Todoist.finishTask( user.todoist_token, task.origin_task_id),
+            TaskProxy.update( task.id, {
+                current_task_id: null,
+                finished: true
+            })
+        ]);
     }
     else {
 
@@ -192,9 +194,6 @@ function finishedMemoryTask( user, todoistTask ){
             if( currentTaskId ){
                 tasks.push( Todoist.finishTask( user.todoist_token, currentTaskId ) );
             }
-
-            // finish the main task
-            tasks.push( Todoist.finishTask( user.todoist_token, task.origin_task_id ) );
 
             tasks.push(TaskProxy.update( task.id, {
                 current_task_id: null,
