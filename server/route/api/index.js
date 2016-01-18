@@ -12,6 +12,15 @@ var basename  = path.basename(module.filename);
  */
 module.exports = function( app ){
 
+    app.all( '/api/*', function( req, res, next ){
+        if( req.session.userInfo ){
+            next();
+        }
+        else {
+            req.send( '401', 'you need to authorize yourself' );
+        }
+    });
+
     fs
         .readdirSync(__dirname)
         .filter(function(file) {

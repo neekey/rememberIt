@@ -114,7 +114,7 @@ function startServer() {
     app.use(CROS());
 
     // 设置路由（API）
-    //routes(app);
+    routes(app);
 
     // 统一的错误处理
     app.use(require('./server/error'));

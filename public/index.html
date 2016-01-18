@@ -19,14 +19,38 @@
             <li>Notice due to the delay of Todoist webhook calls, any process will be updated up to minutes. </li>
         </ul>
 
+        <h3>Troublesome</h3>
+
+        <p>If you delete the automatically created project or label by mistake, you can <a href="#" class="J_RecreateUserData">recreate</a> them.</p>
+
         <h3>Contact</h3>
         <p>If you need any help, mail to ni184775761@gmail.com</p>
     </div>
 
     <script>
         (function(){
-            var userInfo = JSON.parse( decodeURIComponent( $.cookie( 'userInfo' ) ) )
+            var userInfo = JSON.parse( decodeURIComponent( $.cookie( 'userInfo' ) ) );
             $( '.J_UserName').html( userInfo.name ) ;
+
+            var recreating = false;
+            $( '.J_RecreateUserData' ).click(function(e){
+                e.preventDefault();
+
+                if( !recreating ){
+                    recreating = true;
+
+                    $.post( '/api/user/recreate_data', function( res, status, xhr ){
+                        if( xhr.status == 200 ){
+                            alert( 'recreate user data success.' );
+                        }
+                        else {
+                            alert( 'recreate user data fail, please try again' );
+                        }
+                        recreating = false;
+
+                    }, 'json' );
+                }
+            });
         })();
     </script>
 </body>
