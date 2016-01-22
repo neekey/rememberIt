@@ -38,7 +38,7 @@ module.exports = function( bbcCfg ){
 
     return TodoistOauth.middleware({
         pattern: bbcCfg.pattern,
-
+        backURL: bbcCfg.backURL,
         checkSession: function( session ){
             return !!Session.getUserInfo( session );
         },

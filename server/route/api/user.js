@@ -17,7 +17,7 @@ module.exports = function (app) {
      * @param type
      * @param keyword
      */
-    app.post('/api/user/recreate_data', function( req, res ){
+    app.post('/actions/reinitialize_data', function( req, res ){
 
         console.info( 'recreating data...' );
 

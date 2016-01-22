@@ -102,7 +102,8 @@ function startServer() {
 
     // BBC登陆
     app.use(OAuth({
-      pattern: /(^\/pages\/?)|(^\/$)|(^\/index\.html$)/
+      pattern: /^\/actions\/.*/,
+      backURL: '/'
     }));
 
     // 静态资源代理

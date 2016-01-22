@@ -2,53 +2,261 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Remember It!</title>
-    <script src="jquery-1.12.0.min.js"></script>
-    <script src="jquery.cookie.js"></script>
+    <title>RememberIt - remember important things with todoist.</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style"content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <link rel="shortcut icon" href="/favicon.ico" />
 </head>
 <body>
-    <H2 class="J_UserInfo">Hi, <span class="J_UserName"></span>. Welcome to "Remember It".</H2>
 
-    <div class="user-guide">
-        <h3>How to use</h3>
-        <ul>
-            <li>visit this page to connect to todoist ( you've done it ). Remember It will add a label named "Remember It" and a project named "Things To Remember" for you. </li>
-            <li>If you want to remember anything, just add a task and label it with "Remember It", be careful you can't add a task into project "Things to Remember".</li>
-            <li>After you create your remember task, the following sub tasks will be add to project "Things To Remember", their name will be marked with your memory process like "mom's birthday [17%].</li>
-            <li>Whenever you complete a sub task, a subsequent sub task will be created according to the current memory process. If a sub task marked with '100%' is completed, the whole memory process will be finished, and the original task will be closed automatically.</li>
-            <li>Notice due to the delay of Todoist webhook calls, any process will be updated up to minutes. </li>
-        </ul>
+    <style>
 
-        <h3>Troublesome</h3>
+        html {
+            background: #F2F2F2;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background: #F2F2F2;
+            font-family: Arial;
+        }
 
-        <p>If you delete the automatically created project or label by mistake, you can <a href="#" class="J_RecreateUserData">recreate</a> them.</p>
+        a {
+            color: #E64129;
+        }
+        .header {
+            height: 60px;
+            box-sizing: border-box;
+            background: #FFFFFF;
+            border-bottom: 1px solid #EBEBEC;
+            padding: 14px 20px 0 20px;
+        }
 
-        <h3>Contact</h3>
-        <p>If you need any help, mail to ni184775761@gmail.com</p>
+        .header .logo {
+            background: url(./images/logo-small@2x.png) 0 0 no-repeat;
+            background-size: 155px 33px;
+            width: 155px;
+            height: 33px;
+            float: left;
+        }
+
+        .header .userinfo {
+            float: right;
+            color: #8C8E90;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .intro {
+            width: 100%;
+            background: white;
+            padding: 44px 0 135px;
+            text-align: center;
+        }
+
+        .intro .content-wrapper {
+            width: 575px;
+            margin: auto;
+            margin-top: 40px;
+            box-sizing: border-box;
+        }
+
+        .intro .logo-big {
+            background: url(./images/logo-icon@2x.png) 0 0 no-repeat;
+            background-size: 166px 165px;
+            width: 166px;
+            height: 165px;
+            display: inline-block;
+        }
+
+        .intro .desc {
+            font-size: 24px;
+            color: #9B9B9B;
+            line-height: 28px;
+        }
+
+        .intro .login-todoist {
+            border-radius: 3px;
+            font-size: 16px;
+            color: #E64129;
+            line-height: 18px;
+            float: right;
+            margin-top: 10px;
+            display: none;
+
+        }
+
+        .section {
+            width: 900px;
+            margin: auto;
+            margin-bottom: 70px;
+            box-sizing: border-box;
+        }
+
+        .docs {
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .docs .emphasize {
+            font-weight: bold;
+            color: #E64129;
+            cursor: pointer;
+        }
+
+        .section .title {
+            font-size: 18px;
+            color: #333;
+            font-family: arial;
+            font-weight: bold;
+        }
+
+        .section .content {
+            text-align: left;
+            color: #9B9B9B;
+            font-size: 14px;
+            line-height: 24px;
+        }
+
+        .footer {
+            background: #343434;
+            height: 130px;
+            box-sizing: border-box;
+            color: #919191;
+            font-size: 16px;
+            text-align: center;
+            padding-top: 35px;
+        }
+
+        @media screen and (max-width: 900px) {
+            .intro .content-wrapper {
+                width: 100%;
+                padding: 0 10px;
+            }
+
+            .intro .login-todoist {
+                float: none;
+                display: block;
+            }
+
+            .section {
+                width: 100%;
+                padding: 0 10px;
+            }
+        }
+
+    </style>
+
+    <div class="header">
+        <div class="logo"></div>
+        <div class="userinfo J_UserInfo">Hi, <span class="username J_Username">Neekey</span> | <a class="logout J_Logout" href="/actions/logout">Logout</a></div>
     </div>
+
+    <div class="intro">
+        <div class="logo-big"></div>
+        <div class="content-wrapper">
+            <div class="desc">Help you remember important things with todoist.</div>
+            <a class="login-todoist J_Login" href="/actions/auth">Login to Todoist to get started ></a>
+        </div>
+
+    </div>
+
+    <div class="docs">
+        <div class="section">
+            <h4 class="title">HOW IT WORKS</h4>
+            <div class="content">RememberIt uses the strategry of reminding you things repeatly based on thefamouse <a href="//en.wikipedia.org/wiki/Forgetting_curve" class="emphasize" target="_blank">Forgetting-Curve Theory</a> made by Hermann Ebbinghaus. Once you have told RememberIt what you want to remember, It will create several memory tasks for you one after one to make sure you memorize things well and hard to forget.</div>
+        </div>
+
+        <div class="section">
+            <h4 class="title">HOW TO USE</h4>
+            <div class="content">
+                1. You need to <a href="/actions/auth" class="J_Login emphasize">login</a> to todoist to authorize RememberIt the permission of creating tasks. Once it is done, RememberIt will add a label named "Remember It" and a project named "Things To Remember" to your Todoist account automatically.
+                <br/>2. Whenever you want to remember anything, just add a task to describe it and label it with "Remember It”. This task is what called Original Memory Task. Notice that whatever task you add to project "Things to Remember" will be ignored.
+                <br/>3. After you have created your Original Memory Task, the subsequent memory tasks will be added to project "Things To Remember" with certain dates, they are intent to remind you repeatedly and their names will be marked with your memory process, eg "mom's birthday is 1960-01-10 [17%].
+                <br/>4. Whenever you complete a subsequent task, another subsequent task will be created according to the current memory process. If a subsequent task marked with '100%' is completed, the whole memory process will be finished, and the Original Memory Task will be closed automatically. If you manually complete the Original Memory Task, the whole memory process will be finished, and the current subsequent task will be completed.
+                <br/>5. Notice due to the delay of Todoist webhook calls, any changes described above will take minutes to process.</div>
+        </div>
+
+        <div class="section">
+            <h4 class="title">TROUBLESOME</h4>
+            <div class="content">If you delete the automatically created project or label by mistake, you can <span class="J_RecreateUserData emphasize">reinitialize</span> them.</div>
+        </div>
+
+        <div class="section">
+            <h4 class="title">CONTACT</h4>
+            <div class="content">If you need any help, feel free to <a class="emphasize" href="mailto:ni184775761@gmail.com">send me a email</a>.</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="author">RememberIt @ 2016 Neekey</div>
+    </div>
+
+    <script src="./libs/jquery-1.12.0.min.js"></script>
+    <script src="./libs/jquery.cookie.js"></script>
 
     <script>
         (function(){
-            var userInfo = JSON.parse( decodeURIComponent( $.cookie( 'userInfo' ) ) );
-            $( '.J_UserName').html( userInfo.name ) ;
+            var userInfoCookie = $.cookie( 'userInfo' );
+            var login = false;
+
+            if( userInfoCookie ){
+
+                try {
+                    var userInfo = JSON.parse( decodeURIComponent( userInfoCookie ) );
+                }
+                catch( err ){
+                    console.error( 'parse userinfo from cookie error:', err );
+                    return handleNotAuth();
+                }
+
+                handleAuthed( userInfo );
+            }
+            else {
+                handleNotAuth();
+            }
+
+            function handleNotAuth(){
+                login = false;
+                var loginEl = $( '.J_Login' );
+                loginEl.show();
+            }
+
+            function handleAuthed(){
+                login = true;
+                var userInfoEl = $( '.J_UserInfo' );
+                var userNameEl = $( '.J_Username' );
+
+                userNameEl.text( userInfo.name );
+                userInfoEl.show();
+            }
 
             var recreating = false;
+
             $( '.J_RecreateUserData' ).click(function(e){
-                e.preventDefault();
 
-                if( !recreating ){
-                    recreating = true;
+                if( login ){
+                    if( !recreating ){
+                        recreating = true;
 
-                    $.post( '/api/user/recreate_data', function( res, status, xhr ){
-                        if( xhr.status == 200 ){
-                            alert( 'recreate user data success.' );
-                        }
-                        else {
-                            alert( 'recreate user data fail, please try again' );
-                        }
-                        recreating = false;
-
-                    }, 'json' );
+                        $.post( '/actions/reinitialize_data', function( res, status, xhr ){
+                            if( xhr.status == 200 ){
+                                alert( 'reinitialize user data success.' );
+                            }
+                            else {
+                                alert( 'reinitialize user data fail, please try again.' );
+                            }
+                            recreating = false;
+                        }, 'json' );
+                    }
+                }
+                else {
+                    alert( 'please login first.' );
                 }
             });
         })();

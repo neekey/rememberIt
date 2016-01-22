@@ -19,6 +19,11 @@ module.exports = {
         res.cookie('userInfo', JSON.stringify( req.session.userInfo ) );
     },
 
+    logout: function( req, res ){
+        res.clearCookie('userInfo' );
+        return req.session.userInfo = null;
+    },
+
     getUserInfo: function( session ){
         return ( session && session.userInfo );
     }
