@@ -197,12 +197,12 @@
         <div class="author">RememberIt @ 2016 Neekey</div>
     </div>
 
-    <script src="./libs/jquery-1.12.0.min.js"></script>
-    <script src="./libs/jquery.cookie.js"></script>
+    <script src="./libs/zepto.min.js"></script>
+    <script src="./libs/zepto.cookie.min.js"></script>
 
     <script>
         (function(){
-            var userInfoCookie = $.cookie( 'userInfo' );
+            var userInfoCookie = $.fn.cookie( 'userInfo' );
             var login = false;
 
             if( userInfoCookie ){
