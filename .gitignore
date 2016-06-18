@@ -4,3 +4,4 @@ Dockerfile
 docker-compose.yml
 .idea
 *.rdb
+**/.DS_Store
